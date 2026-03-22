@@ -45,6 +45,29 @@ t_emissions = dist * transport_factors.get(mode, 0.15)
 h_emissions = days * hotel_factors.get(hotel, 15.0)
 c_emissions = days * commute_factors.get(local_commute, 2.0)
 total_co2 = t_emissions + h_emissions + c_emissions
+# --- 5. REAL-WORLD COMPARISON ---
+st.subheader("💡 What does this mean?")
+
+# Standardized equivalents (approximate values)
+# 1 mature tree absorbs ~21kg of CO2 per year
+trees_needed = total_co2 / 21
+# Charging a smartphone releases ~0.008kg of CO2
+phones_charged = total_co2 / 0.008
+
+col_a, col_b = st.columns(2)
+
+with col_a:
+    st.info(f"🌳 It would take **{trees_needed:.1f}** mature trees a whole year to absorb this much CO2.")
+with col_b:
+    st.info(f"📱 This is equivalent to charging a smartphone **{phones_charged:,.0f}** times.")
+
+# --- 6. DYNAMIC CARBON RATING ---
+if total_co2 < 100:
+    st.success("✅ **Grade: A (Eco-Traveler)** - Your footprint is very low!")
+elif total_co2 < 500:
+    st.warning("⚠️ **Grade: B (Moderate)** - Consider using more public transport to lower this.")
+else:
+    st.error("🚨 **Grade: C (High Impact)** - This trip has a significant carbon cost.")
 
 # --- 4. DISPLAY METRICS ---
 col1, col2, col3 = st.columns(3)
