@@ -90,3 +90,40 @@ st.plotly_chart(fig, use_container_width=True)
 # --- 6. NAVIGATION BACK ---
 if st.button("⬅️ Plan Another Trip"):
     st.switch_page("input_page.py")
+    # --- 7. COMPARISON WITH OTHER MODES ---
+st.divider()
+st.subheader("🔄 How do other modes compare?")
+
+# Re-calculating distance-based emissions for all modes
+comparison_data = []
+for m, factor in transport_factors.items():
+    comparison_data.append({
+        "Mode": m,
+        "Total CO2 (kg)": (dist * factor) + h_emissions + c_emissions
+    })
+
+comp_df = pd.DataFrame(comparison_data).sort_values("Total CO2 (kg)")
+
+# Create a horizontal bar chart
+fig_comp = px.bar(
+    comp_df, 
+    x="Total CO2 (kg)", 
+    y="Mode", 
+    orientation='h',
+    title=f"Total Trip Impact if you chose...",
+    color="Total CO2 (kg)",
+    color_continuous_scale=px.colors.sequential.Greens_r
+)
+
+# Highlight the user's current choice
+st.plotly_chart(fig_comp, use_container_width=True)
+
+# --- 8. THE "SAVINGS" INSIGHT ---
+best_mode = comp_df.iloc[0]['Mode']
+best_co2 = comp_df.iloc[0]['Total CO2 (kg)']
+savings = total_co2 - best_co2
+
+if savings > 0:
+    st.success(f"💡 **Tip:** You could save **{savings:.1f} kg** of CO2 by switching to **{best_mode}**!")
+else:
+    st.star("🌟 **Amazing!** You've already chosen the most eco-friendly transport mode for this route.")
