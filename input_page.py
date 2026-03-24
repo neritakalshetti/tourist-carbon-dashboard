@@ -48,7 +48,7 @@ dest_data = city_df[city_df['display_name'] == dest_name].iloc[0]
 # --- THE INTERACTIVE MAP ---
 m = folium.Map(location=[(src_data['latitude'] + dest_data['latitude'])/2, 
                          (src_data['longitude'] + dest_data['longitude'])/2], 
-               zoom_start=2, tiles="CartoDB positron")
+               zoom_start=2, tiles="OpenStreetMap")
 
 folium.Marker([src_data['latitude'], src_data['longitude']], 
               popup=f"Source: {source_name}", icon=folium.Icon(color='green', icon='play')).add_to(m)
@@ -104,7 +104,7 @@ with center_col:
         st.session_state.trip_ready = {
             "source": source_name,
             "dest": dest_name,
-            "distance": dist_km,
+            "distance": dist_km * 2,
             "mode": transport_mode,
             "days": stay_days,
             "hotel": hotel_type,
