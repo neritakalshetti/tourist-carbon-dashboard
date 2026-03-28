@@ -25,7 +25,7 @@ st.title("🌍 Global Trip Planner")
 def load_city_data():
     url = "https://datahub.io/core/world-cities/_r/-/data/world-cities.csv"
     df = pd.read_csv("city_data.csv")
-    df['display_name'] = df['name'] + ", " + df['country_name']
+    df['display_name'] = df['name'] + ", " + df['country']
     return df
 
 city_df = load_city_data()
