@@ -23,7 +23,7 @@ st.title("🌍 Global Trip Planner")
 # --- 1. DATA LOADING (World Cities) ---
 @st.cache_data
 def load_city_data():
-    url = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/csv/cities.csv"
+    url = "https://datahub.io/core/world-cities/_r/-/data/world-cities.csv"
     df = pd.read_csv(url)
     df['display_name'] = df['name'] + ", " + df['country_name']
     return df
